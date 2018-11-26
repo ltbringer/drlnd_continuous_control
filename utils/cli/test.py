@@ -35,9 +35,9 @@ def test_agent(
         actor_layer_2_nodes=actor_layer_2_nodes,
         critic_layer_2_nodes=critic_layer_2_nodes,
         actor_model_path=actor_model_path,
-        critic_model_path=critic_model_path
+        critic_model_path=critic_model_path,
+        is_test=True
     )
-    print('time steps = ', max_t)
     for episode in range(episodes):
         agent.reset()
         state = reacherEnv \
@@ -50,7 +50,6 @@ def test_agent(
             next_state, reward, done = reacherEnv.step(action).reaction()
             state = next_state
             score += reward
-            print(reward)
             if done: break
 
         print('Arm gathered rewards = {} in episode {}'.format(score, episode + 1))
