@@ -34,20 +34,24 @@ with weights θQ and θµ.
 ### 1.1 Actor Model (actor-target and actor-local have identical architecture)
 ```
 Actor(
-  (fc1): Linear(in_features=33, out_features=128, bias=True)
-  (fc2): Linear(in_features=128, out_features=128, bias=True)
-  (fc3): Linear(in_features=128, out_features=4, bias=True)
-  (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (fc1): Linear(in_features=33, out_features=256, bias=True)
+  (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (d1): Dropout(p=0.1)
+  (fc2): Linear(in_features=256, out_features=256, bias=True)
+  (d2): Dropout(p=0.1)
+  (fc3): Linear(in_features=256, out_features=4, bias=True)
 )
 ```
 
 ### 1.2 Critic Model (critic-target and critic-local have identical architecture)
 ```
 Critic(
-  (fcs1): Linear(in_features=33, out_features=128, bias=True)
-  (fc2): Linear(in_features=132, out_features=128, bias=True)
-  (fc3): Linear(in_features=128, out_features=1, bias=True)
-  (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (fcs1): Linear(in_features=33, out_features=256, bias=True)
+  (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (d1): Dropout(p=0.1)
+  (fc2): Linear(in_features=260, out_features=256, bias=True)
+  (d2): Dropout(p=0.1)
+  (fc3): Linear(in_features=256, out_features=1, bias=True)
 )
 ```
 
@@ -59,9 +63,9 @@ Critic(
 4. TAU              = 1e-3      # for soft update of target parameters
 5. ACTOR_LR         = 1e-4      # learning rate of the actor
 6. CRITIC_LR        = 1e-4      # learning rate of the critic
-8. FC1_UNITS        = 128       # Number of Neurons in the first hidden layer of both the actor and critic networks
-9. FC2_UNITS        = 128       # Number of Neurons in the second hidden layer of both the actor and critic networks 
-10. TIME_STEPS      = 10000     # Number of time-steps in an episode
+8. FC1_UNITS        = 256       # Number of Neurons in the first hidden layer of both the actor and critic networks
+9. FC2_UNITS        = 256       # Number of Neurons in the second hidden layer of both the actor and critic networks 
+10. TIME_STEPS      = 5000      # Number of time-steps in an episode
 ```
 
 
@@ -72,12 +76,15 @@ Environment solved in 387 episodes!	Average Score: 30.04
 # Ideas for Future Work
 DDPG Algorithms need a lot of episodes to solve environments
 which means slow convergence of neural networks is a huge bottleneck.
-The model trained in this example took ~3 hours to hit 30+ points 
+The model trained in this example took ~6 hours to hit 30+ points 
 over 300 episodes.
 
-Previous attempts without batch-normalization had even poor 
-convergence results with over 100s of episodes fed, a reward of 1 was 
+Previous attempts without batch-normalization and dropout had even poor 
+convergence results with over 500 of episodes fed, a reward of 1 was 
 hard to maintain for the network.
 
 Gradient clipping also helped to keep the gradients from exploding as a
 ReLU activation function was chosen.
+
+
+![scores](https://github.com/AmreshVenugopal/drlnd_continous_control/blob/master/scores_over_100.png)
