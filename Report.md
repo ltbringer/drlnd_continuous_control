@@ -71,6 +71,7 @@ Critic(
 
 # Reward plots
 Environment solved in 387 episodes!	Average Score: 30.04
+![scores](https://github.com/AmreshVenugopal/drlnd_continous_control/blob/master/scores_over_100.png)
 
 
 # Ideas for Future Work
@@ -85,6 +86,3 @@ hard to maintain for the network.
 
 Gradient clipping also helped to keep the gradients from exploding as a
 ReLU activation function was chosen.
-
-
-![scores](https://github.com/AmreshVenugopal/drlnd_continous_control/blob/master/scores_over_100.png)
